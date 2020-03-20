@@ -1,3 +1,4 @@
+# Import os library to determine CWD.
 import os
 
 # Firebase RTBD Config.
@@ -6,6 +7,5 @@ fb_config = {
     'authDomain': "mjolnir-feed.firebaseapp.com",
     'databaseURL': "https://mjolnir-feed.firebaseio.com",
     'storageBucket': "mjolnir-feed.appspot.com",
-    'serviceAccount': os.getcwd() + "/config/mjolnir-feed-firebase-adminsdk-rmsc8-e09d566e13.json"
+    'serviceAccount': os.getcwd() + "/HeraclesAPI/handler/dao/config/mjolnir-feed-firebase-adminsdk-rmsc8-e09d566e13.json"
 }
-
