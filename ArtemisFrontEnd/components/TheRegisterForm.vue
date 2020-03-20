@@ -1,53 +1,73 @@
 <template>
-      <v-card width="400" class="elevation-12 mx-auto">
-        <v-toolbar color="primary" dark flat>
-          <v-toolbar-title>Login form</v-toolbar-title>
-          <v-spacer />
-        </v-toolbar>
-        <v-card-text>
-          <v-form>
-            <v-text-field 
-              label="Login" 
-              name="login" 
-              prepend-icon="mdi-account" 
-              type="text" 
-              v-model="username"
-            />
+  <v-card width="500" class="elevation-12 mx-auto">
+    <v-toolbar color="blue accent-3" dark flat>
+      <v-toolbar-title>Register</v-toolbar-title>
+      <v-spacer />
+    </v-toolbar>
+    <v-card-text>
+      <v-container>
+        <v-form>
+          <v-text-field
+            label="Email"
+            name="email"
+            prepend-icon="mdi-email"
+            type="email"
+            v-model="email"
+          />
+          <v-text-field
+            label="Login"
+            name="login"
+            prepend-icon="mdi-account"
+            type="text"
+            v-model="username"
+          />
 
-            <v-text-field
-              id="password"
-              label="Password"
-              name="password"
-              prepend-icon="mdi-lock"
-              append-icon="mdi-eye-off"
-              type="password"
-              v-model="password"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn 
-            color="primary"
-            @click="login()"
-          >
-            Login
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-text-field
+            id="password"
+            label="Password"
+            name="password"
+            prepend-icon="mdi-lock"
+            append-icon="mdi-eye-off"
+            type="password"
+            v-model="password"
+          />
+          <v-text-field
+            id="password"
+            label="Re-Type Password"
+            name="password"
+            prepend-icon="mdi-lock-reset"
+            type="password"
+            v-model="password"
+          />
+        </v-form>
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer />
+      <v-btn 
+        dark 
+        color="blue lighten-1" 
+        @click="register()"
+        class="ma-3"
+      >
+        Register
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
-  name: 'TheLoginForm',
+  name: "TheLoginForm",
   data() {
     return {
-      username: '',
-      password: '',
-    }
+      email: "",
+      username: "",
+      password: ""
+    };
   },
   methods: {
-    login(){
+    register() {
       //TODO axios call to login route.
     }
   }

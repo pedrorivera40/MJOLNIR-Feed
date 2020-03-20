@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar dark color="primary" app height="56px">
+    <v-app-bar dark color="blue darken-4" app height="56px">
       <v-app-bar-title class="ml-5 display-1">MM2Events</v-app-bar-title>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" app>
