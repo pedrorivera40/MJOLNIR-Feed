@@ -74,9 +74,11 @@ def createUser():
         return jsonify(Error = "Username already exists."),409
     else:
         #modifies the request JSON removing the password key and inserting a hash key.        
-        request.json["hash"] = createHash(password)        
-        del request.json["password"]
-        return registerUser(request.json)
+        hash = createHash(password)  
+        userDict = {}      
+        userDict["username"] = username
+        userDict["user_data"] = {"hash": hash.decode('utf-8'),"image_url":"www.photo.com","name":"FULANO"}
+        return registerUser(userDict)
 
 # Launch app.
 if __name__ == '__main__':

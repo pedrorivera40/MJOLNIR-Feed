@@ -25,14 +25,15 @@ def usernameExists(username):
 def createHash(password):
     utfPasswd = password.encode('utf-8')
     salt = bcrypt.gensalt(rounds=10)#10 rounds for now
-    hash = bcrypt.hashpw(utfPasswd,salt)    
+    hash = bcrypt.hashpw(utfPasswd,salt) 
+       
     return hash
 
 
 #Register a new user with the information given in JSON format
 def registerUser(json):
 
-    user = UserDAO().addUser(json)
+    user = UserDAO().add_user(json)
     if user == None:
         return jsonify(Error = "Error with inserting a new user."),403
     return jsonify(Success = "User created in RTDB."),201
