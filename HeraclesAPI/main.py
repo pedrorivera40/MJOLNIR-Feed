@@ -31,7 +31,7 @@ def token_check(func):
 
 
 # Hello world route...
-@app.route("/Login",methods = ['POST'])
+@app.route("/Login/",methods = ['POST'])
 def login():   
     username = request.json["username"]
     if usernameExists(username) == False:
@@ -55,7 +55,7 @@ def events_feed():
 def event_view(event_id):
     return "<h1>This is MJOLNIR's event view for " + event_id + "!</h1>"
 
-@app.route("/Events/<int>:event_id/comment/",methods = ['POST'])
+@app.route("/Events/<int>:event_id/comments/",methods = ['POST'])
 @token_check
 def comment_post(event_id):
     return "<h1>This is MJOLNIR's comment insertion for " + event_id + "!</h1>"
@@ -65,7 +65,7 @@ def comment_post(event_id):
 def comment_edit(event_id,comment_id):
     return "<h1>This is MJOLNIR's comment edit for " + comment_id + "!</h1>"
 
-@app.route("/Register", methods = ['POST'])
+@app.route("/Register/", methods = ['POST'])
 def createUser():
   
     username = request.json["username"]
