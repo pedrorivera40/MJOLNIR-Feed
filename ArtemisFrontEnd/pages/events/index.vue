@@ -26,15 +26,34 @@
 
 <script>
 import EventCard from '../../components/EventCard'
-import eventsData from '../../data/events.json'
+import {firestore} from '../../services/firebaseInit'
+
 export default {
   components:{
     EventCard
   },
   data(){
     return {
-      events:eventsData,
+      events:[],
     }
+  },
+  created(){
+    const fs = firestore()
+    fs.collection('events').get()
+    .then(snapshot=>{
+      snapshot.forEach(doc =>{
+        const event = {
+          'author': doc.data().author,
+          'date': doc.data().date,
+          'img': doc.data().img,
+          'last_update': doc.data().last_update,
+          'summary': doc.data().summary,
+          'title': doc.data().title
+        }
+
+        this.events.push(event)
+      })
+    })
   }
 
 
