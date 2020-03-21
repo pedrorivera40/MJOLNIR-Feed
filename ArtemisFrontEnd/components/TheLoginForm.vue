@@ -28,25 +28,10 @@
       </v-container>
     </v-card-text>
     <v-card-actions>
-      <a class="ml-4">
-        Forgot Password?
-      </a>
+      <a class="ml-4">Forgot Password?</a>
       <v-spacer />
-      <v-btn 
-        @click="login()"
-        class="ma-3"
-        to="/register"
-      >
-        Register
-      </v-btn>
-      <v-btn 
-        dark 
-        color="blue lighten-1" 
-        @click="login()"
-        class="ma-3"
-      >
-        Login
-      </v-btn>
+      <v-btn @click="login()" class="ma-3" to="/register">Register</v-btn>
+      <v-btn dark color="blue lighten-1" @click="login()" class="ma-3">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -61,11 +46,17 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       //TODO axios call to login route.
+      try {
+          
+
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
-};
+}
 </script>
 
 <style>
