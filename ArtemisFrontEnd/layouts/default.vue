@@ -52,14 +52,19 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Welcome",
-          to: "/"
+          title: "Feed",
+          to: "/feed"
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire"
-        }
+          icon: "mdi-calendar-multiple",
+          title: "Events",
+          to: "/events"
+        },
+        {
+          icon: "mdi-account-group",
+          title: "Users",
+          to: "/users"
+        },
       ],
       mini: false,
       title: "Vuetify.js"
