@@ -1,17 +1,19 @@
 from flask import jsonify
+from handler.dao.user import UserDAO
 import json
 import bcrypt
 import jwt
+import datetime
 
 
+
+### BCrypt Authentication Related Functions
 
 #This function iterates over a list of usernames and
 #returns true if a matching username is found.
 def usernameExists(username):
-    jsonFile = jsonFile = open('mjolnir-feed-export.json')
-    jsonObj = json.load(jsonFile)        
-    users = jsonObj["v1"]["profiles"]
-    if username in users.keys():
+    user = UserDAO().get_user(username)
+    if user != None:
         return True
     else:
         return False
@@ -23,31 +25,48 @@ def usernameExists(username):
 def createHash(password):
     utfPasswd = password.encode('utf-8')
     salt = bcrypt.gensalt(rounds=10)#10 rounds for now
-    hash = bcrypt.hashpw(utfPasswd,salt)
+    hash = bcrypt.hashpw(utfPasswd,salt)    
     return hash
 
 
 #Register a new user with the information given in JSON format
 def registerUser(json):
+
+    user = UserDAO().addUser(json)
+    if user == None:
+        return jsonify(Error = "Error with inserting a new user."),403
+    return jsonify(Success = "User created in RTDB."),201
     
-    return
 
 
 #Verifies the password given with the password stored in the database
 #for an existing user.
 def verifyHash(username,password):
     #hardcoding the user to be evaluated
-    jsonFile = open('mjolnir-feed-export.json')#replace after integrated with db
-    jsonObj = json.load(jsonFile)
-    profiles = jsonObj["v1"]["profiles"]
-    for user in profiles.keys():
-        if username == user:
-            if bcrypt.checkpw(password,profiles[user]["hash"].encode('utf-8')):
-                return True
-            else:
-                return False
-        else:
-            return False 
+    hash = UserDAO().get_user_hash(username)
+    if hash == None:
+        return False        
+    elif bcrypt.checkpw(password,hash.encode('utf-8')):
+        return True
+    else:
+        return False
+       
 
-def generateToken():
-    return    
+### JWT Token Related Functions ###
+
+
+#Generates a new JWT token for the user with the secret key given and returns it.
+def generateToken(username,key):
+    #Create a JWT token
+    token = jwt.encode({'user' : username, 'exp' : datetime.datetime.utcnow()+datetime.timedelta(minutes=3)},key)
+    return  jsonify({'token' : token.decode('UTF-8')})   
+
+
+#Verifies a token with the key given.   
+def verifyToken(token,key):
+    try:
+        jwt.decode(token,key),403
+        return True
+    except:
+        return False
+
