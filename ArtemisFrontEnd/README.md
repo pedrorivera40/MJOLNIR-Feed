@@ -2,6 +2,10 @@
 
 > Front-end for MJORLNIR feed project
 
+## Some useful links
+- [Installing axios in Nuxt](!https://axios.nuxtjs.org/) - HTTP Request Library.
+- [Vuex Store in nuxt](!https://nuxtjs.org/guide/vuex-store) - Nuxt's documentation for their store. You can also srearch for Vuex for mor information on the main Vuex Docs.
+
 ## Build Setup
 
 ```bash
