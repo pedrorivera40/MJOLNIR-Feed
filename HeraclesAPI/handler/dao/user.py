@@ -23,6 +23,16 @@ class UserDAO:
     def get_user(self, username):
         return self.rtdb.child("v1").child("profiles").child(username).get().val()
 
+    # Returns the account of an user given their email.
+    def get_account_by_email(self, email):
+
+        # Iterate through users looking for target email.
+        for account in self.rtdb.child("v1").child("profiles").get().each():
+            if account.val()['email'] == email:
+                return account.val()
+
+        return None
+
     # Obtain the hash information of a user
     def get_user_hash(self, username):
         return self.rtdb.child("v1").child("profiles").child(username).child("hash").get().val()
@@ -35,13 +45,15 @@ if __name__ == '__main__':
     print(user_dao.get_user("user-1"))
 
     # Inserting a dummy user.
-    dummy_user = {
-        'username': 'IT\'S ME',
-        'user_data': {
-            'hash': 'TIMON&PUMBA',
-            'image-url': 'www.myimg.com',
-            'name': 'Fulgencio del Campo',
-        },
-    }
+    # dummy_user = {
+    #     'username': 'aWEIRDuser',
+    #     'user_data': {
+    #         'hash': 'TIMON&PUMBA',
+    #         'image-url': 'www.myimg.com',
+    #         'name': 'Fulgencio del Campo',
+    #         'email': 'aweirdemail@mail.com'
+    #     },
+    # }
 
-    print(user_dao.add_user(dummy_user))
+    # print(user_dao.add_user(dummy_user))
+    print(user_dao.get_account_by_email("fulgencio-el-duro@gmail.com"))
