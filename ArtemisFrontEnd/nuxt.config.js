@@ -7,7 +7,7 @@ export default {
   */
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name || 'MM2Event',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -62,6 +62,10 @@ export default {
         }
       }
     }
+  },
+  server: {
+    host: "0.0.0.0",
+    port: "7000"
   },
   /*
   ** Build configuration

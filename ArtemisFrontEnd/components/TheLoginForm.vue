@@ -31,32 +31,28 @@
       <a class="ml-4">Forgot Password?</a>
       <v-spacer />
       <v-btn @click="login()" class="ma-3" to="/register">Register</v-btn>
-      <v-btn dark color="blue lighten-1" @click="login()" class="ma-3">Login</v-btn>
+      <v-btn dark color="blue lighten-1" @click="lol()" class="ma-3">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import { rtdb, firestore } from "../services/firebaseInit";
 export default {
   name: "TheLoginForm",
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
     async login() {
       //TODO axios call to login route.
-      try {
-          
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    
+    },
   }
-}
+};
 </script>
 
 <style>
