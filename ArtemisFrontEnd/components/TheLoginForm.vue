@@ -49,13 +49,7 @@ export default {
   methods: {
     async login() {
       //TODO axios call to login route.
-      try {
-        const fs = firestore();
-        const snapshot = await fs.collection("users").get();
-        console.log(snapshot.docs[0]);
-      } catch (error) {
-        console.log(error);
-      }
+    
     },
   }
 };
