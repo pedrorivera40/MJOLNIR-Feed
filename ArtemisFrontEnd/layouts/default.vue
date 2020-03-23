@@ -6,9 +6,16 @@
       app 
       height="56px"
     >
-      <v-app-bar-title class="ml-5 display-1">
+      <v-toolbar-title 
+        class="ml-5 display-1"
+      >
+      <nuxt-link 
+        class="appTitle"
+        to="/"
+      >
         MM2Events
-      </v-app-bar-title>
+      </nuxt-link>
+      </v-toolbar-title>
     </v-app-bar>
     <v-navigation-drawer 
       v-model="drawer" 
@@ -94,3 +101,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .appTitle{
+    text-decoration: none;
+    color:whitesmoke,
+  }
+</style>
