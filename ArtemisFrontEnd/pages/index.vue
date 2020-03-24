@@ -15,7 +15,7 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          {{stuff}}
         </v-card-title>
         <v-card-text>
           <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
@@ -82,11 +82,39 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import {rtdb} from '~/services/firebaseInit'
 
 export default {
   components: {
     Logo,
     VuetifyLogo
+  },
+    data() {
+    return {
+      stuff: "HELLO!"
+    }
+  },
+  methods: {
+    async changeName() {
+      const db = rtdb()
+      try {
+        await db.ref("v1/posts/posts-content/post-id-1/title").on('value', 
+          snapshot => {
+            console.log(snapshot.val());
+            this.stuff = snapshot.val();
+          });
+
+      } catch (error) {
+        console.log("CRAP! " + error);
+      }
+    }
+  },
+  // watch: {
+  //   stuff: "changeName"
+  // }, 
+
+  created() {
+    this.changeName()
   }
 }
 </script>
