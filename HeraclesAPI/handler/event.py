@@ -1,8 +1,8 @@
 from flask import jsonify
 #TODO: Check if error messages need to use JSONIFY
 
-import dao.user import UserDAO
-import dao.event import EventDAO
+from .dao.user import UserDAO
+from .dao.event import EventDAO
 
 class EventHandler:
     #FOR GET
@@ -53,7 +53,7 @@ class EventHandler:
                 dao = EventDAO()
                 event_id = EventDAO().create_event(form)
 
-                result = dao.getEventById(event_id)
+                result = dao.get_event_by_id(event_id)
                 return jsonify(result)
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400

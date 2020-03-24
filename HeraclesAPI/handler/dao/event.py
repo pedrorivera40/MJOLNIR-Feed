@@ -1,4 +1,4 @@
-from config.dbconfig import fb_config
+from .config.dbconfig import fb_config
 from firebase import Firebase
 
 ''' 

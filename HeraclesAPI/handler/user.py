@@ -1,5 +1,5 @@
 from flask import jsonify
-from dao.user import UserDAO
+from .dao.user import UserDAO
 
 
  # Inserting a dummy user.
@@ -31,7 +31,7 @@ class UserHandler:
     #for an existing user.
 
     #TODO: Check if it's better to do the bcryp.checkpw here or if should just do a getHash function. If needed, add import
-    def verifyHash(username,password):
+    def verifyHash(self,username,password):
         #hardcoding the user to be evaluated
         dao = UserDAO
         hash = dao.get_user_hash(username)
@@ -48,7 +48,7 @@ class UserHandler:
         if not user:
             return jsonify(Error="User Not Found"),404
         else:
-            return dao.get_user_has(self,username)
+            return dao.get_user_hash(username)
 
     #============================
 
@@ -68,11 +68,11 @@ class UserHandler:
             # assuming ALL fields to be obligatory
 
             #check if username exists
-            if usernameExists(username): 
+            if self.usernameExists(username): 
                 return jsonify(Error = "Username already exists."),409
             else:
                 if username and user_hash and image_url and name and email:
-                    result = dao.add_user(self,form)
+                    result = dao.add_user(form)
                     return jsonify(result)
                 else: 
                     return jsonify(Error="Unexpected attributes in post request"), 400
@@ -85,10 +85,11 @@ class UserHandler:
         else:
             return jsonify(user)
     
-    def getUserByUsername(self,email):
+    def getUserByEmail(self,email):
         dao = UserDAO()
-        user = dao.get_account_by_email(self,email)
+        user = dao.get_account_by_email(email)
         if not user:
             return jsonify(Error="User Not Found"),404
         else:
             return jsonify(user)
+

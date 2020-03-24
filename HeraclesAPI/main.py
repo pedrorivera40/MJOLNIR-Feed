@@ -6,6 +6,8 @@ import bcrypt
 import os
 from auth import usernameExists,registerUser,createHash,verifyHash,generateToken,verifyToken
 from functools import wraps
+from handler.user import UserHandler
+from handler.event import EventHandler
 
 
 app = Flask(__name__)
@@ -31,10 +33,11 @@ def token_check(func):
 
 
 # Hello world route...
-@app.route("/Login/",methods = ['POST'])
+@app.route("/login/",methods = ['POST'])
 def login():   
     username = request.json["username"]
-    if usernameExists(username) == False:
+    handler = UserHandler()
+    if handler.usernameExists(username) == False:
         return jsonify(Error = "User does not exist, create a new user."), 404
     else:
         utfPasswd = request.json["password"].encode('utf-8')    
@@ -45,44 +48,44 @@ def login():
         else:
             return jsonify(Error = "Password does not match, please try again."), 409
 
-@app.route("/Events/", methods = ['GET', 'POST'])
+@app.route("/events/", methods = ['GET', 'POST'])
 @token_check
 def events_feed():       
-    return "<h1>This is MJOLNIR's events feed!!</h1>"
+    return jsonify("This is MJOLNIR's events feed!!")
 
-@app.route("/Events/<int:event_id>/", methods = ['GET', 'UPDATE', 'DELETE'])
+@app.route("/events/<int:event_id>/", methods = ['GET', 'UPDATE', 'DELETE'])
 @token_check
 def event_view(event_id):
-    return "<h1>This is MJOLNIR's event view for " + event_id + "!</h1>"
+    return jsonify("This is MJOLNIR's event view for " + event_id + '!')
 
-@app.route("/Events/<int>:event_id/comments/",methods = ['POST'])
+@app.route("/events/<int>:event_id/comments/",methods = ['POST'])
 @token_check
 def comment_post(event_id):
-    return "<h1>This is MJOLNIR's comment insertion for " + event_id + "!</h1>"
+    return jsonify("This is MJOLNIR's comment insertion for " + event_id + '!')
 
-@app.route("/Events/<int>:event_id/comments/<integer>:comment_id/", methods = ['UPDATE'])
+@app.route("/events/<int>:event_id/comments/<integer>:comment_id/", methods = ['UPDATE'])
 @token_check
 def comment_edit(event_id,comment_id):
-    return "<h1>This is MJOLNIR's comment edit for " + comment_id + "!</h1>"
+    return jsonify("This is MJOLNIR's comment edit for " + comment_id + '!')
 
-@app.route("/Register/", methods = ['POST'])
-def createUser():
-  
+@app.route("/register/", methods = ['POST'])
+def createUser():  
     username = request.json["username"]
     password = request.json["password"]
-    if usernameExists(username): 
-        return jsonify(Error = "Username already exists."),409
-    else:
-        #modifies the request JSON removing the password key and inserting a hash key.        
-        hash = createHash(password)  
-        userDict = {}      
-        userDict["username"] = username
-        userDict["user_data"] = {"hash": hash.decode('utf-8'),"image_url":"www.photo.com","name":"FULANO"}
-        return registerUser(userDict)
+    imageURL = request.json["image-url"]
+    name = request.json["name"]
+    email = request.json["email"]
+    handler = UserHandler()
+        
+    hash = createHash(password)  
+    userDict = {}      
+    userDict["username"] = username
+    userDict["user_data"] = {"hash": hash.decode('utf-8'),"image-url":imageURL,"name":name,"email":email}
+    return handler.createUser(userDict)
 
 # Launch app.
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
 
 
 
