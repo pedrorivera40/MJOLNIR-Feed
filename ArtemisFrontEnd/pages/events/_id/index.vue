@@ -30,8 +30,8 @@
 
 <script>
 import EventCard from '../../../components/EventCard'
-import postData from '../../../data/posts.json'
-import eventData from '../../../data/events.json'
+// import postData from '../../../data/posts.json'
+// import eventData from '../../../data/events.json'
 import {rtdb} from '../../../services/firebaseInit'
 
 export default {
