@@ -41,7 +41,14 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
+  axios: {
+    //Here you specify axios config, such as baseURL and whatnot
+    // proxyHeaders: false
+    baseURL: 'http://0.0.0.0:5000/' //Route for the Flask API
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
