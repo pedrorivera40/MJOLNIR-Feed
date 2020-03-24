@@ -45,7 +45,7 @@ class UserHandler:
             else:
                 if username and user_hash and image_url and name and email:
                     result = dao.add_user(form)
-                    return jsonify(result)
+                    return jsonify(result),201
                 else: 
                     return jsonify(Error="Unexpected attributes in post request"), 400
 
@@ -55,7 +55,7 @@ class UserHandler:
         if not user:
             return jsonify(Error="User Not Found"),404
         else:
-            return jsonify(user)
+            return jsonify(user),200
     
     def getUserByEmail(self,email):
         dao = UserDAO()
@@ -63,5 +63,5 @@ class UserHandler:
         if not user:
             return jsonify(Error="User Not Found"),404
         else:
-            return jsonify(user)
+            return jsonify(user),200
 

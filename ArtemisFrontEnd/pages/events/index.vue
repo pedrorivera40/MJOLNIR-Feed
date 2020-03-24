@@ -27,6 +27,7 @@
 <script>
 import EventCard from '../../components/EventCard'
 import {firestore} from '../../services/firebaseInit'
+import { mapActions } from 'vuex'
 
 export default {
   components:{
@@ -38,7 +39,16 @@ export default {
       events:[],
     }
   },
+  methods:{
+    ...mapActions({
+      getAllEvents: 'events/getAllEvents' //links the events store, looks for getAllEvents action
+    })
+  }
+  ,
   created(){
+    // TODO: Uncomment once API is ready.
+    // this.getAllEvents()
+
     const fs = firestore()
     fs.collection('events').get()
     .then(snapshot=>{

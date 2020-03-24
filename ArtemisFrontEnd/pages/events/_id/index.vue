@@ -47,6 +47,7 @@
 </template>
 
 <script>
+
 import {rtdb} from '../../../services/firebaseInit'
 import { mapActions } from 'vuex'
 import {state} from '../../../store/events/state'
