@@ -32,6 +32,7 @@ export default {
   components:{
     EventCard
   },
+  // middleware:['auth'], enable when login is implemented
   data(){
     return {
       events:[],

@@ -5,6 +5,7 @@
 ## Some useful links
 - [Installing axios in Nuxt](!https://axios.nuxtjs.org/) - HTTP Request Library.
 - [Vuex Store in nuxt](!https://nuxtjs.org/guide/vuex-store) - Nuxt's documentation for their store. You can also srearch for Vuex for mor information on the main Vuex Docs.
+- [Auth library](!https://auth.nuxtjs.org/schemes/local.html) - useful to create route guards for endpoints that need authentication. It redirects you to the login screen if not authenticated.
 
 ## Build Setup
 

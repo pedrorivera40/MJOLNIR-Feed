@@ -42,6 +42,7 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   axios: {
     //Here you specify axios config, such as baseURL and whatnot
