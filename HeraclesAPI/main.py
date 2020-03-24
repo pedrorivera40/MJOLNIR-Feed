@@ -40,8 +40,9 @@ def login():
     if handler.usernameExists(username) == False:
         return jsonify(Error = "User does not exist, create a new user."), 404
     else:
-        utfPasswd = request.json["password"].encode('utf-8')    
-        matches = verifyHash(username,utfPasswd)
+        utfPasswd = request.json["password"].encode('utf-8')
+        hash = handler.getUserHash(username)   
+        matches = verifyHash(hash,utfPasswd)
         if matches:
             
             return generateToken(username,app.config['SECRET_KEY'])

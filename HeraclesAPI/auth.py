@@ -42,9 +42,8 @@ def registerUser(json):
 
 #Verifies the password given with the password stored in the database
 #for an existing user.
-def verifyHash(username,password):
-    #hardcoding the user to be evaluated
-    hash = UserDAO().get_user_hash(username)
+def verifyHash(hash,password):
+    #hardcoding the user to be evaluated    
     if hash == None:
         return False        
     elif bcrypt.checkpw(password,hash.encode('utf-8')):
