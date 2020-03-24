@@ -1,20 +1,6 @@
 from flask import jsonify
 from .dao.user import UserDAO
 
-
- # Inserting a dummy user.
-    # dummy_user = {
-    #     'username': 'aWEIRDuser',
-    #     'user_data': {
-    #         'hash': 'TIMON&PUMBA',
-    #         'image-url': 'www.myimg.com',
-    #         'name': 'Fulgencio del Campo',
-    #         'email': 'aweirdemail@mail.com'
-    #     },
-    # }
-
-    # print(user_dao.add_user(dummy_user))
-
 class UserHandler:
     #====MOVED FROM AUTH========
     #TODO: Check, is there other functionality that should be moved from auth/main to here?
@@ -30,23 +16,11 @@ class UserHandler:
     #Verifies the password given with the password stored in the database
     #for an existing user.
 
-    #TODO: Check if it's better to do the bcryp.checkpw here or if should just do a getHash function. If needed, add import
-    def verifyHash(self,username,password):
-        #hardcoding the user to be evaluated
-        dao = UserDAO
-        hash = dao.get_user_hash(username)
-        if hash == None:
-            return False        
-        elif bcrypt.checkpw(password,hash.encode('utf-8')):
-            return True
-        else:
-            return False
-
     def getUserHash(self,username):
         dao = UserDAO()
         user = dao.get_user(username)
         if not user:
-            return jsonify(Error="User Not Found"),404
+            return None
         else:
             return dao.get_user_hash(username)
 
