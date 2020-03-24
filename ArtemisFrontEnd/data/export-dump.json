@@ -1,0 +1,35 @@
+{
+  "comments" : {
+    "post-id-1" : {
+      "time0" : {
+        "user-1" : "Yeah! This is my post!"
+      },
+      "time1" : {
+        "user-2" : "Bro! You can't put comments on your own post!"
+      },
+      "time2" : {
+        "user-1" : "Come on! I do what I want! It's my post!"
+      }
+    }
+  },
+  "posts-content" : {
+    "post-id-1" : {
+      "author" : "user-1",
+      "date" : "00009991",
+      "image-url" : "www.unafotoplis.com",
+      "last-update" : "00009992",
+      "text" : "BLABLABLABLA.  BLABLABLABLA.   BLABLABLABLA.   BLABLABLABAL.  BLABLABLABAL.   BLABLABALBLA.   BLABLABLABLA.  BLABALBALBA.  BLABALBLABAL.   BLABALBALBALBALBALBALBALSB ",
+      "title" : "Dummy Post"
+    }
+  },
+  "posts-metadata" : {
+    "post-id-1" : {
+      "author" : "user-1",
+      "date" : "00009991",
+      "image-url" : "www.supercoolphoto.com",
+      "last-update" : "00009992",
+      "summary" : "this is a stupid summary",
+      "title" : "Dummy Post"
+    }
+  }
+}

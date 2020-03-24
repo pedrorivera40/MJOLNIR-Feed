@@ -1,0 +1,43 @@
+{
+  "v1" : {
+    "posts" : {
+      "dummy-post" : {
+        "comments" : {
+          "00001" : {
+            "user-1" : "Yep, this is my post..."
+          },
+          "00002" : {
+            "user-2" : "You should not be commenting your own posts bro..."
+          },
+          "00003" : "Why not? It's my post, I do what I want..."
+        },
+        "content" : {
+          "author" : "user-1",
+          "image-url" : "www.hhhh-highresolution.edu",
+          "text" : "A boring text because I can right... Let's start talking about my GPA. Life has ups and downs, but there's one thing for sure... You cannot go any lower than the floor. That being said, if you are in one of those downs in life, ask yourself what is the worst thing that can happen, and put your best efforts to keep moving forward.",
+          "title" : "dummy-post"
+        },
+        "metadata" : {
+          "author" : "user-1",
+          "image-url" : "www.hhhh.edu",
+          "summary" : "Just a boring post cuz Im bored...",
+          "title" : "dummy-post"
+        }
+      }
+    },
+    "profiles" : {
+      "user-1" : {
+        "email" : "mc@a.com",
+        "hash" : "$2b$10$aSZKZ6ggybMJqTL7GSOjsu0/NO/dHWOicYqHMcTg.JuUzcqjcundO",
+        "image-url" : "www.photo.com",
+        "name" : "Fulano de Tal"
+      },
+      "user-2" : {
+        "email" : "caca@gmail.com",
+        "hash" : "KAHUNAMAHATA",
+        "image-url" : "www.photo.com",
+        "name" : "Tu Biscochito"
+      }
+    }
+  }
+}
