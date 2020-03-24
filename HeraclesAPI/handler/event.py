@@ -15,7 +15,7 @@ class EventHandler:
                 events_list[event]['metadata']=None
             if events_list[event]['content']['INVALID']:
                 events_list[event]['content']=None
-        return jsonify(events_list)
+        return jsonify(events_list),200
     
     def getEventByID(self, event_id):
         dao = EventDAO()
@@ -27,7 +27,7 @@ class EventHandler:
                 event['metadata']=None
             if event['content']['INVALID']:
                 event['content']=None
-            return jsonify(event) 
+            return jsonify(event),200
    
     #POST 
     def insertEvent(self, form):
@@ -54,21 +54,24 @@ class EventHandler:
                 event_id = EventDAO().create_event(form)
 
                 result = dao.get_event_by_id(event_id)
-                return jsonify(result)
+                return jsonify(result),201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
     #UPDATE
     def updateEventContent(self, event_id, form):
-        if len(form) < 6:
+        if len(form['metadata'])< 6 or len(form['content'])<6:
             return jsonify(Error="Malformed post request"), 400
         else:
             #TODO: Remove unnecesary ones from validation
-            author_name = form['author']
-            date = form['date']
-            image_url = form['image_url'] 
-            last_update = form['last_update']
-            text = form['text']
-            title = form['title']
+            author_name = form['content']['author']
+            date = form['content']['date']
+            content_image_url = form['content']['image_url'] 
+            last_update = form['content']['last_update']
+            text = form['content']['text']
+            title = form['content']['title']
+            meta_image_url = form['metadata']['image_url'] 
+            summary = form['metadata']['summary']
+            title = form['metadata']['title']
         dao = EventDAO()
         if not dao.get_event_by_id(event_id):
             return jsonify(Error="Event not found."), 404
@@ -78,57 +81,25 @@ class EventHandler:
         else:
             #validate any others?
             if author_name and text and date:
-                event_id = dao.update_event_content(event_id,form)
-                result = dao.get_event_by_id
-                return jsonify(result)
+                dao.update_event_content(event_id,form)
+                dao.update_event_metadata(event_id,form)
+                result = dao.get_event_by_id(event_id)
+                return jsonify(result),200
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
-
-    def updateEventMetadata(self, event_id, form):
-        if len(form) < 6:
-            return jsonify(Error="Malformed post request"), 400
-        else:
-            #TODO: remove any unnecesary ones from validation
-            author_name = form['author']
-            date = form['date']
-            image_url = form['image_url'] 
-            last_update = form['last_update']
-            summary = form['summary']
-            title = form['title']
-        dao = EventDAO()
-        if not dao.get_event_by_id(event_id):
-            return jsonify(Error="Event not found."), 404
-        dao_u = UserDAO()
-        if not dao_u.get_user(author_name):
-            return jsonify(Error="Author User not found."), 404
-        else:
-            #validate any others?
-            if author_name and date:
-                event_id = dao.update_event_metadata(event_id,form)
-                result = dao.get_event_by_id
-                return jsonify(result)
-            else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
-
     # REMOVE operations
     # TODO: Verify
-    def removeEventMetadata(self, event_id):
+    def removeEvent(self, event_id):
         dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         if not event:
             return jsonify(Error="Event Not Found"),404
         else:
-            result = dao.fake_remove_event_metadata(self,event_id)
-            return jsonify(result)
+            dao.fake_remove_event_metadata(event_id)
+            dao.fake_remove_event_content(event_id)
+            result = dao.get_event_by_id(event_id)
+            return jsonify(result),200
     
-    def removeEventContent(self, event_id):
-        dao = EventDAO()
-        event = dao.get_event_by_id(event_id)
-        if not event:
-            return jsonify(Error="Event Not Found"),404
-        else:
-            result = dao.fake_remove_event_content(self,event_id)
-            return jsonify(result)
 
     #Comment Operations
     def removeEventComments(self,event_id):
@@ -137,8 +108,8 @@ class EventHandler:
         if not event:
             return jsonify(Error="Event Not Found"),404
         else:
-            result = dao.fake_remove_event_comments(self,event_id)
-            return jsonify(result)
+            result = dao.fake_remove_event_comments(event_id)
+            return jsonify(result),200
 
     def addComment(self,event_id,comment):
         dao = EventDAO()
@@ -150,8 +121,8 @@ class EventHandler:
             if not dao_u.get_user(comment['user']):
                 return jsonify(Error="Author User Not Found"),404
             else:
-                result =dao.add_comment(self, event_id,comment)
-                return jsonify(result)
+                result =dao.add_comment(event_id,comment)
+                return jsonify(result),201
 
     def updateComment(self,event_id,comment_id,new_comment):
         dao = EventDAO()
@@ -168,8 +139,8 @@ class EventHandler:
                 if event['comments'][comment_id]['user'] != new_comment['user']:
                     return jsonify(Error="Invalid User."), 400
                 else:
-                    result = dao.edit_comment(self,event_id,comment_id,new_comment)
-                    return jsonify(result)
+                    result = dao.edit_comment(event_id,comment_id,new_comment)
+                    return jsonify(result),200
     
     def removeCommentbyId(self,event_id,comment_id):
         dao = EventDAO()
@@ -182,7 +153,7 @@ class EventHandler:
             if not event['comments'][comment_id]:
                 return jsonify(Error="Comment Not Found"),404
             else:
-                result = dao.fake_remove_comment_by_id(self,event_id,comment_id)
-                return jsonify(result)
+                result = dao.fake_remove_comment_by_id(event_id,comment_id)
+                return jsonify(result),200
 
                 
