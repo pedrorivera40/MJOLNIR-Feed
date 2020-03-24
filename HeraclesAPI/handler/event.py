@@ -1,3 +1,6 @@
+from flask import jsonify
+#TODO: Check if error messages need to use JSONIFY
+
 import dao.user import UserDAO
 import dao.event import EventDAO
 
