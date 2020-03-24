@@ -1,7 +1,10 @@
+import dao.user import UserDAO
+import dao.event import EventDAO
+
 class EventHandler:
     #FOR GET
     def getAllEvents(self):       
-        dao = EventsDAO()
+        dao = EventDAO()
         events_list = dao.get_events()
 
         for event in events_list:
@@ -12,7 +15,7 @@ class EventHandler:
         return events_list
     
     def getEventByID(self, event_id):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         if not event:
             return dict(Error="Event Not Found"),404
@@ -41,12 +44,12 @@ class EventHandler:
     
             #what fields are obligatory? For now Author and Text and Date
             if author_name and text and date:
-                dao_u = UsersDAO()
+                dao_u = UserDAO()
                 #vaidate existing user
                 if not dao_u.get_user(author_name):
                     return dict(Error="Author User Not Found"),404
-                dao = EventsDAO()
-                event_id = EventsDAO().create_event(form)
+                dao = EventDAO()
+                event_id = EventDAO().create_event(form)
 
                 result = dao.getEventById(event_id)
                 return result
@@ -65,10 +68,10 @@ class EventHandler:
             last_update = form['last_update']
             text = form['text']
             title = form['title']
-        dao = EventsDAO()
+        dao = EventDAO()
         if not dao.get_event_by_id(event_id):
             return dict(Error="Event not found."), 404
-        dao_u = UsersDAO()
+        dao_u = UserDAO()
         if not dao_u.get_user(author_name):
             return dict(Error="Author User not found."), 404
         else:
@@ -91,10 +94,10 @@ class EventHandler:
             last_update = form['last_update']
             summary = form['summary']
             title = form['title']
-        dao = EventsDAO()
+        dao = EventDAO()
         if not dao.get_event_by_id(event_id):
             return dict(Error="Event not found."), 404
-        dao_u = UsersDAO()
+        dao_u = UserDAO()
         if not dao_u.get_user(author_name):
             return dict(Error="Author User not found."), 404
         else:
@@ -108,7 +111,7 @@ class EventHandler:
 
     # REMOVE operations
     def removeEventMetadata(self, event_id):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         if not event:
             return dict(Error="Event Not Found"),404
@@ -117,7 +120,7 @@ class EventHandler:
             return event_id
     
     def removeEventContent(self, event_id):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         if not event:
             return dict(Error="Event Not Found"),404
@@ -127,7 +130,7 @@ class EventHandler:
 
     #Comment Operations
     def removeEventComments(self,event_id):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         if not event:
             return dict(Error="Event Not Found"),404
@@ -135,9 +138,9 @@ class EventHandler:
             return dao.fake_remove_event_comments(self,event_id)
 
     def addComment(self,event_id,comment):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
-        dao_u = UsersDAO()
+        dao_u = UserDAO()
         if not event:
             return dict(Error="Event Not Found"),404
         else:
@@ -148,7 +151,7 @@ class EventHandler:
                 return comment_id
 
     def updateComment(self,event_id,comment_id,new_comment):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         #check existing event
         if not event:
@@ -166,7 +169,7 @@ class EventHandler:
                     return comment_id
     
     def removeCommentbyId(self,event_id,comment_id):
-        dao = EventsDAO()
+        dao = EventDAO()
         event = dao.get_event_by_id(event_id)
         #check existing event
         if not event:
