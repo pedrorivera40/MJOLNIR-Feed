@@ -16,13 +16,11 @@ class UserHandler:
     #Verifies the password given with the password stored in the database
     #for an existing user.
 
+    # this function assumes that the username has been validated and exists
+    # call usernameExists if necessary
     def getUserHash(self,username):
         dao = UserDAO()
-        user = dao.get_user(username)
-        if not user:
-            return None
-        else:
-            return dao.get_user_hash(username)
+        return dao.get_user_hash(username)
 
     #============================
 
