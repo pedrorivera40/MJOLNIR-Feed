@@ -102,21 +102,25 @@ def comment_edit(event_id, comment_id):
     return jsonify(Error="HTTP method not allowed")
 
 
+# TODO -> Verify if we can use request.get_json() here...
 @app.route("/register/", methods=['POST'])
 def createUser():
-    username = request.json["username"]
-    password = request.json["password"]
-    imageURL = request.json["image-url"]
-    name = request.json["name"]
-    email = request.json["email"]
-    handler = UserHandler()
+    if request.method == 'POST':
+        username = request.json["username"]
+        password = request.json["password"]
+        imageURL = request.json["image-url"]
+        name = request.json["name"]
+        email = request.json["email"]
+        handler = UserHandler()
 
-    hash = createHash(password)
-    userDict = {}
-    userDict["username"] = username
-    userDict["user_data"] = {"hash": hash.decode(
-        'utf-8'), "image-url": imageURL, "name": name, "email": email}
-    return handler.createUser(userDict)
+        hash = createHash(password)
+        userDict = {}
+        userDict["username"] = username
+        userDict["user_data"] = {"hash": hash.decode(
+            'utf-8'), "image-url": imageURL, "name": name, "email": email}
+        return handler.createUser(userDict)
+
+    return jsonify(Error="HTTP method not allowed")
 
 
 # Launch app.
