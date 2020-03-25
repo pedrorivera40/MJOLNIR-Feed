@@ -42,12 +42,7 @@ export default {
     return {
       page_title: "",
       page_description: "",
-      members:[
-        { name : 'Dockerto',
-          bio : 'Soy una persona que aunque me digan que no hable por el hangouts, lo hago porque yo siempre hago lo que me da la gana.',
-          img : 'https://www.docker.com/sites/default/files/d8/2019-07/Moby-logo.png',
-        }
-      ],
+      members:[],
     }
   },
 
