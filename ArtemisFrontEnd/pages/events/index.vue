@@ -27,7 +27,7 @@
 <script>
 import EventCard from '../../components/EventCard'
 import {firestore} from '../../services/firebaseInit'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components:{
@@ -36,7 +36,6 @@ export default {
   // middleware:['auth'], enable when login is implemented
   data(){
     return {
-      events:[],
     }
   },
   methods:{
@@ -44,27 +43,32 @@ export default {
       getAllEvents: 'events/getAllEvents' //links the events store, looks for getAllEvents action
     })
   }
-  ,
+  ,computed:{
+    ...mapGetters({
+      events: 'events/events' //maps state.events to events
+    })
+  },
   created(){
     // TODO: Uncomment once API is ready.
-    // this.getAllEvents()
+    this.getAllEvents()
 
-    const fs = firestore()
-    fs.collection('events').get()
-    .then(snapshot=>{
-      snapshot.forEach(doc =>{
-        const event = {
-          'author': doc.data().author,
-          'date': doc.data().date,
-          'img': doc.data().img,
-          'last_update': doc.data().last_update,
-          'summary': doc.data().summary,
-          'title': doc.data().title
-        }
+    //Pulling events from firebase directly
+    // const fs = firestore()
+    // fs.collection('events').get()
+    // .then(snapshot=>{
+    //   snapshot.forEach(doc =>{
+    //     const event = {
+    //       'author': doc.data().author,
+    //       'date': doc.data().date,
+    //       'img': doc.data().img,
+    //       'last_update': doc.data().last_update,
+    //       'summary': doc.data().summary,
+    //       'title': doc.data().title
+    //     }
 
-        this.events.push(event)
-      })
-    })
+    //     this.events.push(event)
+    //   })
+    // })
   }
 
 
