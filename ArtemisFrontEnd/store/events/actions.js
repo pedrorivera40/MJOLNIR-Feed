@@ -17,11 +17,11 @@ export default {
       console.log("Trouble fetching event by id. " + error)
     }
   },
-  async postComment({commit},commentJSON,eid){
+  async postComment({commit},commentJSON){
     try {
-      console.log(eid)
+     
       console.log(commentJSON)
-      const response = await this.$axios.post('events/post-id-'+eid+'/comments/',commentJSON) 
+      const response = await this.$axios.post('events/post-id-'+commentJSON.eid+'/comments/',commentJSON) 
       
     }catch(error){
       console.log("Trouble posting a comment. " + error)

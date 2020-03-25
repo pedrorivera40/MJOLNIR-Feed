@@ -2,7 +2,8 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="display-1">Feed for Event:{{eventName}}</h1>        
+        <h1 class="display-1" v-if="isLoading">Feed for Event:{{eventName}}</h1>
+        <h1 class="display-1" v-else> Loading </h1>        
       </v-col>
     </v-row>
    <v-card class="mx-auto" max-width="400" max-height="200">
@@ -23,10 +24,10 @@
     </v-card-actions>
   </v-card>
 
-    <v-timeline>
+    <v-timeline v-if="isLoading">
       <v-timeline-item
         v-for="comment in comments"
-        :key="comment"
+        :key="comment.id"
         large
       >
         <template v-slot:icon>
@@ -49,41 +50,44 @@
 <script>
 
 import {rtdb} from '../../../services/firebaseInit'
-import { mapActions } from 'vuex'
-import {state} from '../../../store/events/state'
-
-
+import { mapGetters,mapActions } from 'vuex'
 
 export default {  
     data(){
         return{      
             eventName:String,
             textInput:"",            
-            comments:[], 
+            comments:[]           
         }
     }, 
     created(){
-       this.eventName = this.getEventByID(this.$route.params.id)
-       this.fetchComments()
+       this.getEventByID(this.$route.params.id),
+       this.fetchComments(),
+       this.eventName = ""
+       
     },
+    computed:{
+        
+        ...mapGetters({
+          event:'events/event'
+        }),
+        
+    },  
     watch:{
-       // comments:'fetchComments'//Has a problem of duplicating because of the for loop
-    },
+        comments:'fetchComments'//Has a problem of duplicating because of the for loop
+    },   
 
     methods: {
         async fetchComments(){
             const db = rtdb()
-            try{
-                const postSnapshot = await db.ref('/v1/posts/posts-content/post-id-'+this.$route.params.id).once('value')
-                //console.log(postsSnapshot.val().title)
-                this.eventName = postSnapshot.val().title
-                const commentSnapshot = await db.ref('/v1/posts/comments/post-id-'+this.$route.params.id).once('value')
+            try{                
+                const commentSnapshot =await db.ref('/v1/posts/comments/post-id-'+this.$route.params.id).once('value')
                 this.comments = []
+                this.eventName = this.event.title
                 for (const key in commentSnapshot.val()) {
                     if (commentSnapshot.val().hasOwnProperty(key)) {
                         const element = commentSnapshot.val()[key]
-                        this.comments.push(element)
-                        
+                        this.comments.push(element)                        
                     }
                 }
             }catch(error){
@@ -97,13 +101,15 @@ export default {
         }),
         addComment(){
           console.log(this.textInput)
-          const commentJSON = {text: this.textInput,user:"user-1"}
+          const commentJSON = {eid:this.$route.params.id,text:this.textInput,user:"user-1"}
           
           console.log(commentJSON)
-          this.postComment(this.$route.params.id,commentJSON)
+          this.postComment(commentJSON)
           this.textInput = ""
-        }
-        
+        },
+        isLoading(){                            
+          return !!this.event
+        }        
         
     }
  
