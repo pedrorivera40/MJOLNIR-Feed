@@ -9,7 +9,7 @@
     
     <v-card-title >Comment</v-card-title>
     <v-text-field
-              v-model="message2"
+              v-model=textInput
               solo
               label="Write your comment here"
               clearable
@@ -18,7 +18,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue" text>Submit</v-btn>
+      <v-btn color="blue" @click="addComment()">Submit</v-btn>
       
     </v-card-actions>
   </v-card>
@@ -58,6 +58,7 @@ export default {
     data(){
         return{      
             eventName:String,
+            textInput:"",            
             comments:[], 
         }
     }, 
@@ -66,7 +67,7 @@ export default {
        this.fetchComments()
     },
     watch:{
-        comments:'fetchComments'//Has a problem of duplicating because of the for loop
+       // comments:'fetchComments'//Has a problem of duplicating because of the for loop
     },
 
     methods: {
@@ -93,7 +94,16 @@ export default {
         ...mapActions({
           getEventByID : 'events/getEventByID', //Links to event store and looks for getEvenByID action 
           postComment: 'events/postComment'     
-        }),  
+        }),
+        addComment(){
+          console.log(this.textInput)
+          const commentJSON = {text: this.textInput,user:"user-1"}
+          
+          console.log(commentJSON)
+          this.postComment(this.$route.params.id,commentJSON)
+          this.textInput = ""
+        }
+        
         
     }
  
