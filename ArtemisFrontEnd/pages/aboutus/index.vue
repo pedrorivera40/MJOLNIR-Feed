@@ -74,10 +74,10 @@ export default {
       }
     },
 
-    async updateMembers() {
+    updateMembers() {
       const db = rtdb()
       try {
-        await db.ref("v1/about-us/team").on('value', 
+        db.ref("v1/about-us/team").on('value', 
           snapshot => {
             console.log(snapshot.val());
             this.members = snapshot.val();
