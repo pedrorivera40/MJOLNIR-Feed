@@ -12,6 +12,13 @@ class UserHandler:
             return True
         else:
             return False
+
+    def emailExists(self, username):
+        user = UserDAO().get_account_by_email(email)
+        if user != None:
+            return True
+        else:
+            return False
     
     #Verifies the password given with the password stored in the database
     #for an existing user.
@@ -42,12 +49,15 @@ class UserHandler:
             #check if username exists
             if self.usernameExists(username): 
                 return jsonify(Error = "Username already exists."),409
-            else:
-                if username and user_hash and image_url and name and email:
-                    result = dao.add_user(form)
-                    return jsonify(result),201
-                else: 
-                    return jsonify(Error="Unexpected attributes in post request"), 400
+            else: 
+                if self.emailExists(email): 
+                    return jsonify(Error = "Email already exists."),409
+                else:
+                    if username and user_hash and image_url and name and email:
+                        result = dao.add_user(form)
+                        return jsonify(result),201
+                    else: 
+                        return jsonify(Error="Unexpected attributes in post request"), 400
 
     def getUser(self,username):
         dao = UserDAO()

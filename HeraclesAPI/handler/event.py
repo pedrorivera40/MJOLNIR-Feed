@@ -10,13 +10,12 @@ class EventHandler:
     def getAllEvents(self):
         dao = EventDAO()
         events_list = dao.get_events()
-
+        print (events_list)
+        return_list = dict()
         for event in events_list:
-            if events_list[event]['metadata']['INVALID']:
-                events_list[event]['metadata'] = None
-            if events_list[event]['content']['INVALID']:
-                events_list[event]['content'] = None
-        return jsonify(events_list), 200
+            if 'INVALID' not in events_list[event]:
+                return_list[event] = events_list[event]
+        return jsonify(return_list), 200
 
     def getEventByID(self, event_id):
         dao = EventDAO()
@@ -24,10 +23,9 @@ class EventHandler:
         if not event:
             return jsonify(Error="Event Not Found"), 404
         else:
-            if event['metadata']['INVALID']:
-                event['metadata'] = None
-            if event['content']['INVALID']:
-                event['content'] = None
+            if 'INVALID' in event and event['INVALID']:
+                if event['INVALID']:
+                    return jsonify(Error="Event Not Found"), 404
             return jsonify(event), 200
 
     # POST
