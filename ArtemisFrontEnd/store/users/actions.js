@@ -13,6 +13,7 @@ export default {
       const response = await this.$axios.post('login/', credentials) //returns the desired data as jason
       //use .data to extract the actual data from the request. 
       commit("SET_USER_DATA", response.data) //Verify response json to make sure of the structure.
+      this.$router.push('/events')
     } catch (error) {
       console.log("Trouble fetching events.", error)
     }

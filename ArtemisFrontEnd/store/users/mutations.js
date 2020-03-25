@@ -8,7 +8,7 @@ export default {
     localStorage.setItem('user', JSON.stringify(userData))
 
     //Set axios headers to contain the auth token by editing default axios config.
-    axios.default.headers.common['Authorization'] = `Bearer ${userData.token}`
+    this.$axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
   },
   CLEAR_USER_DATA() {
     //Forces a fresh of the page and effectively clears state and axios header settings
