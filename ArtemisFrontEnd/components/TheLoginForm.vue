@@ -30,14 +30,15 @@
     <v-card-actions>
       <a class="ml-4">Forgot Password?</a>
       <v-spacer />
-      <v-btn @click="login()" class="ma-3" to="/register">Register</v-btn>
-      <v-btn dark color="blue lighten-1" @click="lol()" class="ma-3">Login</v-btn>
+      <v-btn class="ma-3" to="/register">Register</v-btn>
+      <v-btn dark color="blue lighten-1" class="ma-3" @click="login">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { rtdb, firestore } from "../services/firebaseInit";
+import { mapActions } from "vuex"
+
 export default {
   name: "TheLoginForm",
   data() {
@@ -47,10 +48,9 @@ export default {
     };
   },
   methods: {
-    async login() {
-      //TODO axios call to login route.
-    
-    },
+    ...mapActions({
+      login: 'users/login'
+    })
   }
 };
 </script>
