@@ -54,7 +54,7 @@ def login():
 
 
 @app.route("/events/", methods=['GET', 'POST'])
-# @token_check
+@token_check
 def events_feed():
     handler = EventHandler()
 
@@ -68,7 +68,7 @@ def events_feed():
 
 
 @app.route("/events/<string:event_id>/", methods=['GET', 'PUT', 'DELETE'])
-# @token_check
+@token_check
 def event_view(event_id):
     handler = EventHandler()
 
@@ -85,7 +85,7 @@ def event_view(event_id):
 
 
 @app.route("/events/<string:event_id>/comments/", methods=['POST'])
-# @token_check
+@token_check
 def comment_post(event_id):
     if request.method == 'POST':
         return EventHandler().addComment(event_id, request.get_json())
@@ -94,7 +94,7 @@ def comment_post(event_id):
 
 
 @app.route("/events/<string:event_id>/comments/<integer>:comment_id/", methods=['PUT'])
-# @token_check
+@token_check
 def comment_edit(event_id, comment_id):
     if request.method == 'PUT':
         return EventHandler().updateComment(event_id, comment_id, request.get_json())
