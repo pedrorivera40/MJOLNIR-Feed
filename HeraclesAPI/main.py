@@ -49,7 +49,7 @@ def login():
         hash = handler.getUserHash(username)
 
         if verifyHash(hash, utfPasswd):
-            return generateToken(username, app.config['SECRET_KEY'])
+            return jsonify(dict(token=generateToken(username, app.config['SECRET_KEY']))), 200
 
         return jsonify(Error="Password does not match, please try again."), 409
 
@@ -115,12 +115,18 @@ def createUser():
         email = request.json["email"]
         handler = UserHandler()
 
-        hash = createHash(password)
+        p_hash = createHash(request.json["password"])
         userDict = {}
         userDict["username"] = username
-        userDict["user_data"] = {"hash": hash.decode(
+        userDict["user_data"] = {"hash": p_hash.decode(
             'utf-8'), "image-url": imageURL, "name": name, "email": email}
-        return handler.createUser(userDict)
+        resp_dict, code = handler.createUser(userDict)
+        if code == 201:
+            resp_dict['token'] = generateToken(
+                username, app.config['SECRET_KEY'])
+            return jsonify(resp_dict), code
+
+        return resp_dict, code
 
     return jsonify(Error="HTTP method not allowed")
 
