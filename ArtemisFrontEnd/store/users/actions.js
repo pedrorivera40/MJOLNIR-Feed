@@ -1,7 +1,7 @@
 export default {
   async register({commit}, credentials){
     try {
-      const response = await this.$axios.post('/register/', credentials) //returns the desired data as jason
+      const response = await this.$axios.post('register/', credentials) //returns the desired data as jason
       //use .data to extract the actual data from the request. 
       commit("SET_USER_DATA", response.data) // Verify response json to make sure of the structure.
     } catch (error) {
@@ -10,7 +10,7 @@ export default {
   },
   async login({commit}, credentials){
     try {
-      const response = await this.$axios.post('/login/', credentials) //returns the desired data as jason
+      const response = await this.$axios.post('login/', credentials) //returns the desired data as jason
       //use .data to extract the actual data from the request. 
       commit("SET_USER_DATA", response.data) //Verify response json to make sure of the structure.
     } catch (error) {
