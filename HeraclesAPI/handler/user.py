@@ -31,6 +31,7 @@ class UserHandler:
 
     #============================
 
+
     #POST
     def createUser(self, form):
         dao = UserDAO()
@@ -55,7 +56,7 @@ class UserHandler:
                 else:
                     if username and user_hash and image_url and name and email:
                         result = dao.add_user(form)
-                        return jsonify(result),201
+                        return jsonify(username = username),201
                     else: 
                         return jsonify(Error="Unexpected attributes in post request"), 400
 
