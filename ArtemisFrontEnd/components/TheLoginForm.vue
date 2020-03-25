@@ -6,7 +6,7 @@
     </v-toolbar>
     <v-card-text>
       <v-container>
-        <v-form @submit.prevent="login">
+        <v-form>
           <v-text-field
             label="Username"
             name="login"
@@ -31,7 +31,7 @@
       <a class="ml-4">Forgot Password?</a>
       <v-spacer />
       <v-btn class="ma-3" to="/register">Register</v-btn>
-      <v-btn dark color="blue lighten-1" class="ma-3" type="submit">Login</v-btn>
+      <v-btn dark color="blue lighten-1" class="ma-3" @click="login">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>

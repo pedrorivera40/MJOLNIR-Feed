@@ -68,9 +68,9 @@ export default {
     };
   },
   methods: {
-    register() {
-      //TODO axios call to login route.
-    }
+    ...mapActions({
+      register: 'users/register'
+    })
   }
 };
 </script>
