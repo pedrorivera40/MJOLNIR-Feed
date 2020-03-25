@@ -5,6 +5,24 @@
         <h1 class="display-1">Feed for Event:{{eventName}}</h1>        
       </v-col>
     </v-row>
+   <v-card class="mx-auto" max-width="400" max-height="200">
+    
+    <v-card-title >Comment</v-card-title>
+    <v-text-field
+              v-model="message2"
+              solo
+              label="Write your comment here"
+              clearable
+    ></v-text-field>   
+
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="blue" text>Submit</v-btn>
+      
+    </v-card-actions>
+  </v-card>
+
     <v-timeline>
       <v-timeline-item
         v-for="comment in comments"
@@ -13,7 +31,7 @@
       >
         <template v-slot:icon>
           <v-avatar>
-            <img src="http://i.pravatar.cc/64">
+            <img src="">
           </v-avatar>
         </template>
         <template v-slot:opposite>
@@ -29,15 +47,14 @@
 </template>
 
 <script>
-import EventCard from '../../../components/EventCard'
-// import postData from '../../../data/posts.json'
-// import eventData from '../../../data/events.json'
-import {rtdb} from '../../../services/firebaseInit'
 
-export default {
-    components:{
-        EventCard
-    },
+import {rtdb} from '../../../services/firebaseInit'
+import { mapActions } from 'vuex'
+import {state} from '../../../store/events/state'
+
+
+
+export default {  
     data(){
         return{      
             eventName:String,
@@ -45,6 +62,7 @@ export default {
         }
     }, 
     created(){
+       this.eventName = this.getEventByID(this.$route.params.id)
        this.fetchComments()
     },
     watch:{
@@ -71,7 +89,12 @@ export default {
               console.log('i give up: (', error)
 
             }
-        }
+        },
+        ...mapActions({
+          getEventByID : 'events/getEventByID', //Links to event store and looks for getEvenByID action 
+          postComment: 'events/postComment'     
+        }),  
+        
     }
  
     

@@ -6,7 +6,7 @@
     </v-toolbar>
     <v-card-text>
       <v-container>
-        <v-form>
+        <v-form >
           <v-text-field
             label="Email"
             name="email"
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "TheLoginForm",
   data() {
@@ -67,9 +68,9 @@ export default {
     };
   },
   methods: {
-    register() {
-      //TODO axios call to login route.
-    }
+    ...mapActions({
+      register: 'users/register'
+    })
   }
 };
 </script>
