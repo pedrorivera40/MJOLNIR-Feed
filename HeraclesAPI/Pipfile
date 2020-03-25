@@ -38,6 +38,7 @@ sseclient = "==0.0.26"
 urllib3 = "==1.25.8"
 jwt = "*"
 bcrypt = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.6"

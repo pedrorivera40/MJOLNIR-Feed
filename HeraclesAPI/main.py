@@ -8,11 +8,12 @@ from auth import usernameExists, registerUser, createHash, verifyHash, generateT
 from functools import wraps
 from handler.user import UserHandler
 from handler.event import EventHandler
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['SECRET_KEY'] = 'doom is eternal'
-
 # Verifies that the user accessing a rout has a token and is valid.
 
 
@@ -57,7 +58,7 @@ def login():
 
 
 @app.route("/events/", methods=['GET', 'POST'])
-@token_check
+# @token_check
 def events_feed():
     handler = EventHandler()
 
