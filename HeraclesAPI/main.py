@@ -36,25 +36,28 @@ def token_check(func):
 # Hello world route...
 @app.route("/login/", methods=['POST'])
 def login():
-    username = request.json["username"]
-    handler = UserHandler()
+    if request.method == 'POST':
+        username = request.json["username"]
+        handler = UserHandler()
 
-    # Return error if user does not exist in the system.
-    if not handler.usernameExists(username):
-        return jsonify(Error="User does not exist, create a new user."), 404
+        # Return error if user does not exist in the system.
+        if not handler.usernameExists(username):
+            return jsonify(Error="User does not exist, create a new user."), 404
 
-    # Validate user credentials.
-    utfPasswd = request.json["password"].encode('utf-8')
-    hash = handler.getUserHash(username)
+        # Validate user credentials.
+        utfPasswd = request.json["password"].encode('utf-8')
+        hash = handler.getUserHash(username)
 
-    if verifyHash(hash, utfPasswd):
-        return generateToken(username, app.config['SECRET_KEY'])
+        if verifyHash(hash, utfPasswd):
+            return generateToken(username, app.config['SECRET_KEY'])
 
-    return jsonify(Error="Password does not match, please try again."), 409
+        return jsonify(Error="Password does not match, please try again."), 409
+
+    return jsonify(Error="HTTP method not allowed")
 
 
 @app.route("/events/", methods=['GET', 'POST'])
-@token_check
+# @token_check
 def events_feed():
     handler = EventHandler()
 
@@ -68,7 +71,7 @@ def events_feed():
 
 
 @app.route("/events/<int:event_id>/", methods=['GET', 'PUT', 'DELETE'])
-@token_check
+# @token_check
 def event_view(event_id):
     handler = EventHandler()
 
@@ -85,7 +88,7 @@ def event_view(event_id):
 
 
 @app.route("/events/<int>:event_id/comments/", methods=['POST'])
-@token_check
+# @token_check
 def comment_post(event_id):
     if request.method == 'POST':
         return EventHandler().addComment(event_id, request.get_json())
@@ -94,7 +97,7 @@ def comment_post(event_id):
 
 
 @app.route("/events/<int>:event_id/comments/<integer>:comment_id/", methods=['PUT'])
-@token_check
+# @token_check
 def comment_edit(event_id, comment_id):
     if request.method == 'PUT':
         return EventHandler().updateComment(event_id, comment_id, request.get_json())
