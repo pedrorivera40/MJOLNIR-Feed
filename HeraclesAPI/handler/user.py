@@ -4,7 +4,7 @@ from .dao.user import UserDAO
 
 class UserHandler:
     # ====MOVED FROM AUTH========
-    # TODO: Check, is there other functionality that should be moved from auth/main to here?
+    # TODO -> Check, is there other functionality that should be moved from auth/main to here?
     # This function iterates over a list of usernames and
     # returns true if a matching username is found.
     def usernameExists(self, username):
