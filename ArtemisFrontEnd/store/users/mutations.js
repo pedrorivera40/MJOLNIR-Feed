@@ -2,7 +2,7 @@
 export default {
   SET_USER_DATA(state, userData) {
     //Set user data
-    state.user = userData
+    state.user = userData.username
 
     //Set userdata in local storage. MAY NEED SECURITY FIXES
     localStorage.setItem('user', JSON.stringify(userData))
