@@ -95,6 +95,11 @@ export default {
           title: "Events",
           to: "/events"
         },
+        {
+          icon: "mdi-account-cowboy-hat",
+          title: "About Us",
+          to: "/aboutus"
+        },
       ],
       mini: false,
       title: "Vuetify.js"
