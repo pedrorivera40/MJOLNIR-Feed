@@ -122,7 +122,7 @@ def createUser():
     if request.method == 'POST':
         username = request.json["username"]
         password = request.json["password"]
-        imageURL = request.json["image-url"]
+        imageURL = request.json["image_url"]
         name = request.json["name"]
         email = request.json["email"]
         handler = UserHandler()
@@ -130,7 +130,7 @@ def createUser():
         p_hash = createHash(request.json["password"])
         userDict = {}
         userDict["username"] = username
-        userDict["image-url"] = imageURL
+        userDict["image_url"] = imageURL
         userDict["user_data"] = {"hash": p_hash.decode(
             'utf-8'), "image-url": imageURL, "name": name, "email": email}
         resp_dict, code = handler.createUser(userDict)
