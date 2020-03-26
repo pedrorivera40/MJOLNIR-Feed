@@ -69,7 +69,8 @@ export default {
     computed:{
         
         ...mapGetters({
-          event:'events/event'
+          event:'events/event',
+          user:'/users/user'
         }),
         
     },  
@@ -101,7 +102,7 @@ export default {
         }),
         addComment(){
           console.log(this.textInput)
-          const commentJSON = {eid:this.$route.params.id,text:this.textInput,user:"user-1"}
+          const commentJSON = {eid:this.$route.params.id,text:this.textInput,user:this.user.username}
           
           console.log(commentJSON)
           this.postComment(commentJSON)
