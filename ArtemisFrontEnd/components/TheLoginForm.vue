@@ -31,7 +31,7 @@
       <a class="ml-4">Forgot Password?</a>
       <v-spacer />
       <v-btn class="ma-3" to="/register">Register</v-btn>
-      <v-btn dark color="blue lighten-1" class="ma-3" @click="login">Login</v-btn>
+      <v-btn dark color="blue lighten-1" class="ma-3" @click="login({username: username, password: password})">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>

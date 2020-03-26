@@ -28,7 +28,7 @@
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item-title>{{user}}</v-list-item-title>
 
         <v-btn 
           icon 
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -102,7 +103,12 @@ export default {
       ],
       mini: false,
       title: "Vuetify.js"
-    };
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'users/user'
+    })
   }
 };
 </script>

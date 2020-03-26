@@ -40,7 +40,7 @@ def login():
     if request.method == 'POST':
         username = request.json["username"]
         handler = UserHandler()
-
+# usernameExists, verifyHash, generateToken
         # Return error if user does not exist in the system.
         if not handler.usernameExists(username):
             return jsonify(Error="User does not exist, create a new user."), 404
@@ -50,7 +50,7 @@ def login():
         hash = handler.getUserHash(username)
 
         if verifyHash(hash, utfPasswd):
-            return jsonify(dict(token=generateToken(username, app.config['SECRET_KEY']))), 200
+            return jsonify(dict(username=username, token=generateToken(username, app.config['SECRET_KEY']))), 200
 
         return jsonify(Error="Password does not match, please try again."), 409
 
@@ -119,6 +119,7 @@ def createUser():
         p_hash = createHash(request.json["password"])
         userDict = {}
         userDict["username"] = username
+        userDict["image-url"] = imageURL
         userDict["user_data"] = {"hash": p_hash.decode(
             'utf-8'), "image-url": imageURL, "name": name, "email": email}
         resp_dict, code = handler.createUser(userDict)
