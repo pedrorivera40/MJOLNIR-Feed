@@ -4,7 +4,7 @@ from .dao.user import UserDAO
 
 class UserHandler:
     # ====MOVED FROM AUTH========
-    # TODO: Check, is there other functionality that should be moved from auth/main to here?
+    # TODO -> Check, is there other functionality that should be moved from auth/main to here?
     # This function iterates over a list of usernames and
     # returns true if a matching username is found.
     def usernameExists(self, username):
@@ -56,8 +56,9 @@ class UserHandler:
                     return jsonify(Error="Email already exists."), 409
                 else:
                     if username and user_hash and image_url and name and email:
-                        if dao.add_user(form):
-                            return dict(username=username), 201
+                        user_added = dao.add_user(form)
+                        if user_added:
+                            return dict(username=username, img=image_url), 201
                         return jsonify(Error="Unsuccessfull post request."), 400
                     else:
                         return jsonify(Error="Unexpected attributes in post request"), 400
@@ -68,7 +69,7 @@ class UserHandler:
         if not user:
             return jsonify(Error="User Not Found"), 404
         else:
-            return jsonify(user), 200
+            return user, 200
 
     def getUserByEmail(self, email):
         dao = UserDAO()

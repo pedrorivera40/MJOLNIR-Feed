@@ -1,10 +1,11 @@
+# TODO -> Clean non-used imports.
 from flask import Flask, request, jsonify, make_response
 import jwt
 import json
 import datetime
 import bcrypt
 import os
-from auth import usernameExists, registerUser, createHash, verifyHash, generateToken, verifyToken
+from auth import usernameExists, createHash, verifyHash, generateToken, verifyToken
 from functools import wraps
 from handler.user import UserHandler
 from handler.event import EventHandler
@@ -40,17 +41,23 @@ def login():
     if request.method == 'POST':
         username = request.json["username"]
         handler = UserHandler()
-# usernameExists, verifyHash, generateToken
+
         # Return error if user does not exist in the system.
+        # TODO -> Move this logic to the handler.
         if not handler.usernameExists(username):
             return jsonify(Error="User does not exist, create a new user."), 404
 
         # Validate user credentials.
         utfPasswd = request.json["password"].encode('utf-8')
-        hash = handler.getUserHash(username)
+        handler_resp, code = handler.getUser(username)
 
-        if verifyHash(hash, utfPasswd):
-            return jsonify(dict(username=username, token=generateToken(username, app.config['SECRET_KEY']))), 200
+        # If handler did not yield success (OK), return handler's response.
+        if code != 200:
+            return handler_resp, code
+
+        # If hash matches, grant access.
+        if verifyHash(handler_resp['hash'], utfPasswd):
+            return jsonify(dict(username=username, token=generateToken(username, app.config['SECRET_KEY']), img=handler_resp['image_url'])), 200
 
         return jsonify(Error="Password does not match, please try again."), 409
 
