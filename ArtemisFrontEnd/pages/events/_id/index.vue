@@ -31,15 +31,15 @@
         large
       >
         <template v-slot:icon>
-          <v-avatar>
-            <img src="">
+          <v-avatar color="blue">
+            <v-icon dark> mdi-account-circle</v-icon>           
           </v-avatar>
         </template>
         <template v-slot:opposite>
           <span>{{comment.user}}</span>
         </template>
         <v-card class="elevation-2">
-          <v-card-title class="headline">{{comment.key}}</v-card-title>
+          <v-card-title class="headline">Commented</v-card-title>
           <v-card-text> {{comment.text}} </v-card-text>        
         </v-card>
       </v-timeline-item>
@@ -57,12 +57,13 @@ export default {
         return{      
             eventName:String,
             textInput:"",            
-            comments:[]           
+            comments:[],
+                   
         }
     }, 
     created(){
        this.getEventByID(this.$route.params.id),
-       this.fetchComments(),
+       this.fetchComments(),      
        this.eventName = ""
        
     },
@@ -71,8 +72,7 @@ export default {
         ...mapGetters({
           event:'events/event',
           user:'/users/user'
-        }),
-        
+        }),        
     },  
     watch:{
         comments:'fetchComments'//Has a problem of duplicating because of the for loop
@@ -95,14 +95,14 @@ export default {
               console.log('i give up: (', error)
 
             }
-        },
+        },     
         ...mapActions({
           getEventByID : 'events/getEventByID', //Links to event store and looks for getEvenByID action 
           postComment: 'events/postComment'     
         }),
         addComment(){
           console.log(this.textInput)
-          const commentJSON = {eid:this.$route.params.id,text:this.textInput,user:this.user.username}
+          const commentJSON = {eid:this.$route.params.id,text:this.textInput,user:this.user.username}//THis is expecting the state to have a user.
           
           console.log(commentJSON)
           this.postComment(commentJSON)
