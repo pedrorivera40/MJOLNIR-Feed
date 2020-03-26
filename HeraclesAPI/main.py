@@ -22,11 +22,15 @@ def token_check(func):
     @wraps(func)
     def decorated():
 
-        token = request.headers.get('token')
+        token = request.headers.get('Authorization')
+        print(token)
+        print(request.headers)
+        print(request.get_json())
 
         if not token:
             return jsonify(Error='Token is missing'), 403
         response = verifyToken(token, app.config['SECRET_KEY'])
+        print(response, app.config['SECRET_KEY'])
         if response == False:
             return jsonify(Error="Token is invalid"), 403
         else:
@@ -65,7 +69,7 @@ def login():
 
 
 @app.route("/events/", methods=['GET', 'POST'])
-# @token_check
+@token_check
 def events_feed():
     handler = EventHandler()
 

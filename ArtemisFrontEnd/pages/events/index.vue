@@ -26,7 +26,6 @@
 
 <script>
 import EventCard from '../../components/EventCard'
-import {firestore} from '../../services/firebaseInit'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
